@@ -151,6 +151,7 @@ const AI = {
       cycle: this.quantifyTendency("cycler", "metaCycler", "metaHunter"),
       reverse: this.quantifyTendency(),
     }
+    debugger;
     return this.modefyStrategyFactor(tendency);
   },
   useInsightAfterDraw: function () {
@@ -237,10 +238,12 @@ const AI = {
         Params.addToParam("cycler", -5);
       }
     } else if (prev.result === "playerPoint") { // && player cycles reverse
-      // Player is not Hunter
-      Params.addToParam("hunter", -10);
-      // Player is not Cycler
-      Params.addToParam("cycler", -10);
+      // Player may not MetaHunter
+      Params.addToParam("metaHunter", -8);
+      // Player may not MetaPrayer
+      Params.addToParam("metaPrayer", -8);
+      // Player may not MetaCycler
+      Params.addToParam("metaCycler", -8);
       // Player may prefers last hand
       const hand = last.player;
       const key = "prefer" + hand[0].toUpperCase() + hand.slice(1);
@@ -347,7 +350,6 @@ const AI = {
         Params.multiplyParam(key, rate);
       });
     }
-
     Params.updateParamsStorage();
   }
 }
