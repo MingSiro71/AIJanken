@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/krishdevdb/reseter.css/css/reseter.min.css" />
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=New+Tegomin&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style/common.css">
+  <link rel="stylesheet" href="./style/monitor.css">
+  <title>AI Parameter Monitor</title>
+</head>
+<body>
+  <header>
+    <nav class="navigation">
+      <div class="navigation-logo">Primitive AI lab.</div>
+      <div class="navigation-text">Feel the force, of your insight!</div>
+    </nav>
+  </header>
+  <main>
+    <h1>AI's insight weight parameters</h1>
+    <ul id="graph-field"></ul>
+  </main>
+
+  <!-- Requirement: jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+  <!-- const Params: Object -->
+  <script src="./js/Params.js"></script>
+  <script src="./js/graph.js" async></script>
+</body>
+</html>

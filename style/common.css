@@ -1,0 +1,28 @@
+html, body, header, main, div, ul, li {
+  margin: 0;
+  padding: 0;
+}
+main {
+  padding: 0 12px;
+}
+a, a:hover, a:focus, a:active {
+  color: inherit;
+}
+a:hover {
+  text-decoration: underline;
+}
+.navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  width: 100%;
+  padding: 0 8px;
+  background-color: #717f91;
+  vertical-align: middle;
+  color: white;
+}
+.navigation-logo, .navigation-text {
+  font-family: 'New Tegomin', serif;
+}
