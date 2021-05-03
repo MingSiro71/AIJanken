@@ -6,6 +6,7 @@ const initialGameState = {
   },
   wait: false,
   waitTime: 1500,
+  matchPoint: 15,
 };
 const Game = _.cloneDeep(initialGameState);
 
@@ -129,10 +130,10 @@ function game(myHand) {
   Log.record(myHand, opponentHand, result);
   AI.updateInsight(Log, Params);
 
-  if (Game.score.player >= 10) {
+  if (Game.score.player >= Game.matchPoint) {
     gameover("player");
     return true;
-  } else if (Game.score.opponent >= 10) {
+  } else if (Game.score.opponent >= Game.matchPoint) {
     gameover("opponent");
     return true;
   }
@@ -148,3 +149,4 @@ function game(myHand) {
 $("#my-hand-rock").on("click", game.bind(null, "rock"));
 $("#my-hand-scissors").on("click", game.bind(null, "scissors"));
 $("#my-hand-paper").on("click", game.bind(null, "paper"));
+$("#game-match-point").html(Game.matchPoint);
