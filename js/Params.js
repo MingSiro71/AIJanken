@@ -43,12 +43,10 @@ const Params = {
   },
   _values: {
     bearer: 50,
-    sticker: 50,
     prayer: 50,
     hunter: 50,
     cycler: 50,
     metaBearer: 50,
-    metaSticker: 50,
     metaPrayer: 50,
     metaHunter: 50,
     metaCycler: 50,

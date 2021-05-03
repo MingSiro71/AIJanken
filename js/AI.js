@@ -17,12 +17,10 @@ const AI = {
   _Params: undefined,
   strategyParams: [
     "bearer",
-    "sticker",
     "prayer",
     "hunter",
     "cycler",
     "metaBearer",
-    "metaSticker",
     "metaPrayer",
     "metaHunter",
     "metaCycler",
@@ -133,25 +131,24 @@ const AI = {
   },
   useInsightAfterBeat: function () {
     // Will stay: Prayer
-    // Will cycle: Cycler, Hunter, MetaSticker, MetaHunte
+    // Will cycle: Cycler, Hunter, MetaHunte
     // Will reverse: MetaCycler
     const tendency = {
       stay: this.quantifyTendency("prayer"),
-      cycle: this.quantifyTendency("cycler", "hunter", "metaSticker", "metaHunter"),
+      cycle: this.quantifyTendency("cycler", "hunter", "metaHunter"),
       reverse: this.quantifyTendency("metaCycler"),
     }
     return this.modefyStrategyFactor(tendency);
   },
   useInsightAfterLose: function () {
-    // Will stay: Sticker, Hunter, MetaPrayer
+    // Will stay: Hunter, MetaPrayer
     // Will cycle: Cycler, MetaCycler, MetaHunter
     // Will reverse: none
     const tendency = {
-      stay: this.quantifyTendency("sticker", "hunter", "metaPrayer"),
+      stay: this.quantifyTendency("hunter", "metaPrayer"),
       cycle: this.quantifyTendency("cycler", "metaCycler", "metaHunter"),
       reverse: this.quantifyTendency(),
     }
-    debugger;
     return this.modefyStrategyFactor(tendency);
   },
   useInsightAfterDraw: function () {
@@ -201,27 +198,15 @@ const AI = {
       const key = "prefer" + hand[0].toUpperCase() + hand.slice(1);
       Params.addToParam(key, 10);
     } else if (prev.result === "playerPoint" && last.player === prev.player) {
-      // Player may be Sticker
-      Params.addToParam("sticker", 10);
-      // In addition, player may be MetaSticker
-      Params.addToParam("metaSticker", 2);
       // Player may be Hunter
-      Params.addToParam("hunter", 10);
+      Params.addToParam("hunter", 3);
       // But player is not MetaHunter
       // Player may be MetaPrayer
-      Params.addToParam("metaPrayer", 5);
+      Params.addToParam("metaPrayer", 20);
       if (last.result === "playerPoint") {
-        // Player may be reinforced to be Sticker
-        Params.addToParam("sticker", 5);
-        // Player may be reinforced to be Hunter
-        Params.addToParam("hunter", 5);
         // Player may be reinforced to be MetaPrayer
-        Params.addToParam("metaPrayer", 5);
+        Params.addToParam("metaPrayer", 10);
       } else if (last.result === "AIPoint") {
-        // Player may be get to be less Sticker
-        Params.addToParam("sticker", -5);
-        // Player may be get to be less Hunter
-        Params.addToParam("hunter", -5);
         // Player may be get to be less MetaPrayer
         Params.addToParam("metaPrayer", -5);
       }
@@ -229,109 +214,106 @@ const AI = {
       // Player is Cycler
       Params.addToParam("cycler", 15);
       // In addition, player may be MetaCycler
-      Params.addToParam("metaCycler", 2);
+      Params.addToParam("metaCycler", 3);
+      // Player may MetaHunter
+      Params.addToParam("metaHunter", 10);
       if (last.result === "playerPoint") {
         // Player may be reinforced to be Cycler
-        Params.addToParam("cycler", 5);
+        Params.addToParam("cycler", 8);
+        // Player may be reinforced to be MetaHunter
+        Params.addToParam("metaHunter", 5);
       } else if (last.result === "AIPoint") {
         // Player may be get to be less Cycler
-        Params.addToParam("cycler", -5);
+        Params.addToParam("cycler", -4);
+        // Player may be get to be less MetaHunter
+        Params.addToParam("metaHunter", -3);
       }
     } else if (prev.result === "playerPoint") { // && player cycles reverse
-      // Player may not MetaHunter
-      Params.addToParam("metaHunter", -8);
-      // Player may not MetaPrayer
-      Params.addToParam("metaPrayer", -8);
-      // Player may not MetaCycler
-      Params.addToParam("metaCycler", -8);
-      // Player may prefers last hand
-      const hand = last.player;
-      const key = "prefer" + hand[0].toUpperCase() + hand.slice(1);
-      Params.addToParam(key, 5);
+      //
     } else if (prev.result === "AIPoint" && last.player === prev.player) {
       // Player is Prayer
-      Params.addToParam("prayer", 15);
+      Params.addToParam("prayer", 20);
       // In addition, player may be MetaPrayer
-      Params.addToParam("metaPrayer", 2);
+      Params.addToParam("metaPrayer", 3);
       if (last.result === "playerPoint") {
         // Player may be reinforced to be Prayer
-        Params.addToParam("prayer", 5);
+        Params.addToParam("prayer", 10);
       } else if (last.result === "AIPoint") {
         // Player may be get to be less Prayer
         Params.addToParam("prayer", -5);
       }
     } else if (prev.result === "AIPoint" && last.player === prev.AI) {
       // Player is MetaCycler
-      Params.addToParam("metaCycler", 15);
+      Params.addToParam("metaCycler", 20);
       // In addition, player may be Cycler
-      Params.addToParam("cycler", 2);
+      Params.addToParam("cycler", 3);
       if (last.result === "playerPoint") {
         // Player may be reinforced to be MetaCycler
-        Params.addToParam("metaCycler", 5);
+        Params.addToParam("metaCycler", 10);
       } else if (last.result === "AIPoint") {
         // Player may be get to be less MetaCycler
         Params.addToParam("metaCycler", -5);
       }
     } else if (prev.result === "AIPoint") { // && player cycles reverse
       // Player is Hunter
-      Params.addToParam("hunter", 15);
+      Params.addToParam("hunter", 20);
       // In addition, Player may be MetaHunter
-      Params.addToParam("metaHunter", 2);
+      Params.addToParam("metaHunter", 3);
       if (last.result === "playerPoint") {
         // Player may be reinforced to be Hunter
-        Params.addToParam("hunter", 5);
+        Params.addToParam("hunter", 10);
       } else if (last.result === "AIPoint") {
         // Player may be get to be less Hunter
         Params.addToParam("hunter", -5);
       }
     } else if (prev.result === "draw" && last.player === prev.player) {
       // Player is Bearer
-      Params.addToParam("bearer", 15);
+      Params.addToParam("bearer", 20);
       // In addition, Player may be MetaBearer
-      Params.addToParam("metaBearer", 2);
+      Params.addToParam("metaBearer", 3);
       if (last.result === "playerPoint") {
         // Player may be reinforced to be Bearer
-        Params.addToParam("bearer", 5);
+        Params.addToParam("bearer", 10);
       } else if (last.result === "AIPoint") {
         // Player may be get to be less Bearer
         Params.addToParam("bearer", -5);
       }
     } else if (prev.result === "draw" && rule(last.player, prev.player) === -1) {
       // Player may MetaHunter
-      Params.addToParam("metaHunter", 10);
+      Params.addToParam("metaHunter", 15);
       // Player may Cycler
-      Params.addToParam("cycler", 10);
+      Params.addToParam("cycler", 8);
       if (last.result === "playerPoint") {
         // Player may be reinforced to be MetaHunter
-        Params.addToParam("metaHunter", 5);
+        Params.addToParam("metaHunter", 8);
         // Player may be reinforced to be cycler
-        Params.addToParam("cycler", 5);
+        Params.addToParam("cycler", 4);
       } else if (last.result === "AIPoint") {
         // Player may be get to be less MetaHunter
-        Params.addToParam("metaHunter", -5);
+        Params.addToParam("metaHunter", -3);
         // Player may be get to be less cycler
-        Params.addToParam("cycler", -5);
+        Params.addToParam("cycler", -2);
 
       }
     } else { // draw && player cycles reverse
       // Player may be Hunter
-      Params.addToParam("hunter", 10);
+      Params.addToParam("hunter", 3);
       // In addition, Player may be MetaHunter
-      Params.addToParam("metaHunter", 2);
+      Params.addToParam("metaHunter", 3);
       // Player may be MetaBearer
-      Params.addToParam("metaBearer", 10);
+      Params.addToParam("metaBearer", 20);
       if (last.result === "playerPoint") {
-        // Player may be reinforced to be Hunter
-        Params.addToParam("hunter", 5);
         // Player may be reinforced to be MetaBearer
-        Params.addToParam("metaBearer", 5);
+        Params.addToParam("metaBearer", 10);
       } else if (last.result === "AIPoint") {
-        // Player may be get to be less Hunter
-        Params.addToParam("hunter", -5);
         // Player may be get to be less MetaBearer
         Params.addToParam("metaBearer", -5);
       }
     }
+    const hand = last.player;
+    const key = "prefer" + hand[0].toUpperCase() + hand.slice(1);
+    Params.addToParam(key, 10);
+
     const sumStrategy = this.strategyParams.reduce(function (acc, key) {
       return acc + Params.getParam(key);
     }, 0);
