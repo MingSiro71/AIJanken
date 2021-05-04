@@ -95,9 +95,9 @@ function gameover(winner) {
   $("#overlay-gameover").addClass("active");
   const $gameoverMessageElement = $("#gameover-message");
   if (winner === "player") {
-    $gameoverMessageElement.html("Congratulations!<br>...How do you think to be beat me?");
+    $gameoverMessageElement.html("Congratulations!<br>...How did you think to defeat me?");
   } else if (winner === "opponent") {
-    $gameoverMessageElement.html("You won't beat me. Will you try again?");
+    $gameoverMessageElement.html("You won't defeat me. Will you try again?");
   } else {
     $gameoverMessageElement.html("There is bug. Or are you trying to hack?");
   }
